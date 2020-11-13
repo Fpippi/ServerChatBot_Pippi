@@ -47,7 +47,7 @@ namespace ServerChatBot_Pippi
             byte[] buff = new byte[128];
             int receivedBytes = 0;
             int sendedBytes = 0;
-            string receivedString, sendString;
+            string receivedString, sendString="";
 
             while (true)
             {
@@ -56,7 +56,7 @@ namespace ServerChatBot_Pippi
                 receivedString = Encoding.ASCII.GetString(buff, 0, receivedBytes);
                 Console.WriteLine("Stringa ricevuta: " + receivedString);
 
-                if (true)
+                if (receivedString!="\r\n")
                 {
                     switch (receivedString.ToLower())
                     {
@@ -88,12 +88,12 @@ namespace ServerChatBot_Pippi
                             return;
                     }
                 }
-               
+
 
                 Array.Clear(buff, 0, buff.Length);
                 sendedBytes = 0;
                 // lo converto in byte
-                buff = Encoding.ASCII.GetBytes(sendString);
+                buff = Encoding.ASCII.GetBytes(sendString+"\r\n");
 
                 //invio al client il messaggio
                 sendedBytes = client.Send(buff);
@@ -102,5 +102,6 @@ namespace ServerChatBot_Pippi
 
 
             }
+        }
     }
 }
